@@ -9,10 +9,6 @@ open class Validator<T> : LinkedHashSet<ValidateRule<T>>() {
                       onSuccess: (() -> Unit)? = null,
                       onError: ((String) -> Unit)? = null): Boolean {
 
-        if (data == null) {
-            return false
-        }
-
         forEach {
             if (!it.validate(data)) {
                 onError?.invoke(it.errorMessage())
