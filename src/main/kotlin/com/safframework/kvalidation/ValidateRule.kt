@@ -5,7 +5,7 @@ package com.safframework.kvalidation
  */
 interface ValidateRule<T> {
 
-    fun validate(data: T?): Boolean
+    fun validate(data: T): Boolean
 
     fun errorMessage(): String
 }
