@@ -9,6 +9,10 @@ class Validator<T> : LinkedHashSet<ValidateRule<T>>() {
                       onSuccess: (() -> Unit)? = null,
                       onError: ((String) -> Unit)? = null): Boolean {
 
+        if (onSuccess == null && onError == null) {
+            throw IllegalArgumentException("At least one of onSuccess or onError should be present")
+        }
+
         forEach {
             if (!it.validate(data)) {
                 onError?.invoke(it.errorMessage())
