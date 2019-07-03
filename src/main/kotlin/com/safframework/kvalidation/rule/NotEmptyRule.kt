@@ -7,7 +7,7 @@ import com.safframework.kvalidation.ValidateRule
  */
 class NotEmptyRule : ValidateRule<String> {
 
-    override fun errorMessage() = "Text must not be null"
+    override fun errorMessage() = "text must not be empty"
 
     override fun validate(data: String) = data.isNotEmpty()
 
