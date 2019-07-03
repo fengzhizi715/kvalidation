@@ -3,7 +3,7 @@ package com.safframework.kvalidation
 /**
  * Created by tony on 2019-07-03.
  */
-class Validator<T> : LinkedHashSet<ValidateRule<T>>() {
+open class Validator<T> : LinkedHashSet<ValidateRule<T>>() {
 
     fun validate(data: T,
                       onSuccess: (() -> Unit)? = null,
