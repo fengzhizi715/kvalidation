@@ -1,5 +1,6 @@
-package com.safframework.kvalidation
+package com.safframework.kvalidation.rx
 
+import com.safframework.kvalidation.Validator
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import io.reactivex.Observable
