@@ -8,7 +8,7 @@ fun main() {
 
     val email = "fengzhizi715@126"
 
-    defineRxValidator<String>(email){
+    defineRxValidator(email){
 
         this addRule EmailRule()
       }.toObservable( error = { println(it)})
