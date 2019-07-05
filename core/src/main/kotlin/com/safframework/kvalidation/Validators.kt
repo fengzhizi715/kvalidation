@@ -22,3 +22,9 @@ fun <T> defineRxValidator(data: T, block: RxValidator<T>.() -> Unit): RxValidato
     block.invoke(v)
     return v
 }
+
+fun <T> T.rxValidator(block: RxValidator<T>.() -> Unit): RxValidator<T> {
+    val v = RxValidator<T>(this)
+    block.invoke(v)
+    return v
+}
