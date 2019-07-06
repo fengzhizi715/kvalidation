@@ -1,5 +1,6 @@
 package com.safframework.kvalidation
 
+import com.safframework.kvalidation.property.PropertyValidator
 import com.safframework.kvalidation.rx.RxValidator
 
 /**
@@ -25,6 +26,12 @@ fun <T> defineRxValidator(data: T, block: RxValidator<T>.() -> Unit): RxValidato
 
 fun <T> T.rxValidator(block: RxValidator<T>.() -> Unit): RxValidator<T> {
     val v = RxValidator<T>(this)
+    block.invoke(v)
+    return v
+}
+
+fun <T> definePropertyValidator(block: PropertyValidator<T>.() -> Unit): PropertyValidator<T> {
+    val v = PropertyValidator<T>()
     block.invoke(v)
     return v
 }
