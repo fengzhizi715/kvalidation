@@ -7,11 +7,9 @@ data class ValidationError(val specName:String,val errorMessage: String, val fie
 
 data class ValidationErrors(val errors: List<ValidationError>) {
 
-    fun fieldErrors(vararg fieldNames: String) =
-        errors.filter { it.fieldNames.containsAll(fieldNames.toList()) }
+    fun fieldErrors(vararg fieldNames: String) = errors.filter { it.fieldNames.containsAll(fieldNames.toList()) }
 
-    fun singleFieldErrors(fieldName:String)=
-        errors.filter { it.fieldNames.size ==1 && it.fieldNames.contains(fieldName)}
+    fun singleFieldErrors(fieldName:String)= errors.filter { it.fieldNames.size ==1 && it.fieldNames.contains(fieldName)}
 
     fun showAllMessages()= errors.map{it.toString()}
 
