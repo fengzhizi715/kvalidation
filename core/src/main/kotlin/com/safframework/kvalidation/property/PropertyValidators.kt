@@ -25,7 +25,7 @@ class PropertyValidator<T> (
         fFlock.invoke(fieldValidator)
     }
 
-    private fun execValidate(target: T, validateAll: Boolean): List<ValidationError> {
+    private fun execValidate(target: T, validateAll: Boolean = false): List<ValidationError> {
 
         val errors = mutableListOf<ValidationError>()
 
@@ -54,7 +54,7 @@ class PropertyValidator<T> (
      */
     fun validateAll(target: T) = ValidationErrors(execValidate(target = target, validateAll = true))
 
-    fun validateUntilFirst(target: T) = ValidationErrors(execValidate(target = target, validateAll = false))
+    fun validateUntilFirst(target: T) = ValidationErrors(execValidate(target = target))
 
     fun isValid(target: T) = !validateUntilFirst(target).hasErrors()
 }
