@@ -5,17 +5,17 @@ package com.safframework.kvalidation.property
  */
 open class ValidationProcessItem<T>(val specName: String = "", val fieldNames: List<String>)
 
-class ValidationSpec<T>(specName: String = "",
-                        fieldNames: List<String>,
-                        val assertionFun: T.() -> Boolean) : ValidationProcessItem<T>(specName, fieldNames) {
+open class ValidationSpec<T>(specName: String = "",
+                             fieldNames: List<String>,
+                             val assertionFun: T.() -> Boolean) : ValidationProcessItem<T>(specName, fieldNames) {
 
-    private var msgFun: ((T) -> String)? = null
+    private var messageFunction: ((T) -> String)? = null
 
-    fun errorMessage(msgFun: T.() -> String) {
-        this.msgFun = msgFun
+    fun errorMessage(messageFunction: T.() -> String) {
+        this.messageFunction = messageFunction
     }
 
-    fun showMessage(target: T): String = msgFun?.invoke(target) ?: "validation failed"
+    fun showMessage(target: T) = messageFunction?.invoke(target) ?: "validation failed"
 
     fun isValid(target: T): Boolean = assertionFun.invoke(target)
 }
@@ -32,14 +32,14 @@ class PropertyValidator<T> (
         return spec
     }
 
-    fun fieldName(fieldName: String, fFlock: PropertyValidator<T>.() -> Unit) {
+    fun fieldName(fieldName: String, block: PropertyValidator<T>.() -> Unit) {
         val fieldValidator = PropertyValidator(validationProcessItems, listOf(fieldName))
-        fFlock.invoke(fieldValidator)
+        block.invoke(fieldValidator)
     }
 
-    fun fieldNames(vararg fieldNames: String, fFlock: PropertyValidator<T>.() -> Unit) {
+    fun fieldNames(vararg fieldNames: String, block: PropertyValidator<T>.() -> Unit) {
         val fieldValidator = PropertyValidator(validationProcessItems, fieldNames.toList())
-        fFlock.invoke(fieldValidator)
+        block.invoke(fieldValidator)
     }
 
     private fun execValidate(target: T, validateAll: Boolean = false): List<ValidationError> {
@@ -51,14 +51,18 @@ class PropertyValidator<T> (
             when(it) {
                 is ValidationSpec<T> -> {
 
-                    val error = ValidationError(
-                        specName = it.specName,
-                        fieldNames = it.fieldNames,
-                        errorMessage = it.showMessage(target)
-                    )
-                    errors.add(error)
+                    if (!it.assertionFun(target)) {
 
-                    if (!validateAll) return errors
+                        val error = ValidationError(
+                            specName = it.specName,
+                            fieldNames = it.fieldNames,
+                            errorMessage = it.showMessage(target)
+                        )
+                        errors.add(error)
+
+                        if (!validateAll) return errors
+                    }
+
                 }
             }
         }
@@ -66,9 +70,6 @@ class PropertyValidator<T> (
         return errors
     }
 
-    /**
-     * execute validation
-     */
     fun validateAll(target: T) = ValidationErrors(execValidate(target = target, validateAll = true))
 
     fun validateUntilFirst(target: T) = ValidationErrors(execValidate(target = target))
