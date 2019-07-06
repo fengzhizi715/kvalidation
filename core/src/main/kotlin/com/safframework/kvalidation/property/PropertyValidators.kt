@@ -7,7 +7,7 @@ open class ValidationProcessItem<T>(val specName: String = "", val fieldNames: L
 
 open class ValidationSpec<T>(specName: String = "",
                              fieldNames: List<String>,
-                             val assertionFun: T.() -> Boolean) : ValidationProcessItem<T>(specName, fieldNames) {
+                             val validateFunction: T.() -> Boolean) : ValidationProcessItem<T>(specName, fieldNames) {
 
     private var messageFunction: ((T) -> String)? = null
 
@@ -17,7 +17,7 @@ open class ValidationSpec<T>(specName: String = "",
 
     fun showMessage(target: T) = messageFunction?.invoke(target) ?: "validation failed"
 
-    fun isValid(target: T): Boolean = assertionFun.invoke(target)
+    fun isValid(target: T): Boolean = validateFunction(target)
 }
 
 class PropertyValidator<T> (
@@ -25,9 +25,9 @@ class PropertyValidator<T> (
     private val validationProcessItems: MutableList<ValidationProcessItem<T>> = mutableListOf(),
     private val fieldNames: List<String> = emptyList()) {
 
-    fun mustBe(specName: String = "", assertionFun: T.() -> Boolean): ValidationSpec<T> {
+    fun mustBe(specName: String = "", validateFunction: T.() -> Boolean): ValidationSpec<T> {
 
-        val spec = ValidationSpec(specName = specName, assertionFun = assertionFun, fieldNames = fieldNames)
+        val spec = ValidationSpec(specName = specName, validateFunction = validateFunction, fieldNames = fieldNames)
         validationProcessItems.add(spec)
         return spec
     }
@@ -51,7 +51,7 @@ class PropertyValidator<T> (
             when(it) {
                 is ValidationSpec<T> -> {
 
-                    if (!it.assertionFun(target)) {
+                    if (!it.validateFunction(target)) {
 
                         val error = ValidationError(
                             specName = it.specName,
