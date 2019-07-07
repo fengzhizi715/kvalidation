@@ -32,12 +32,12 @@ class PropertyValidator<T> (
         return spec
     }
 
-    fun fieldName(fieldName: String, block: PropertyValidator<T>.() -> Unit) {
+    fun field(fieldName: String, block: PropertyValidator<T>.() -> Unit) {
         val fieldValidator = PropertyValidator(validationProcessItems, listOf(fieldName))
         block.invoke(fieldValidator)
     }
 
-    fun fieldNames(vararg fieldNames: String, block: PropertyValidator<T>.() -> Unit) {
+    fun fields(vararg fieldNames: String, block: PropertyValidator<T>.() -> Unit) {
         val fieldValidator = PropertyValidator(validationProcessItems, fieldNames.toList())
         block.invoke(fieldValidator)
     }

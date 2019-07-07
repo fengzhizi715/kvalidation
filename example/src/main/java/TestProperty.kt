@@ -13,16 +13,16 @@ val propertyValidator = definePropertyValidator<User> {
 
     mustBe { name.isNotBlank() }
 
-    fieldName("password") {
+    field("password") {
         mustBe("password not blank") { password.isNotBlank() }
         mustBe("password length range") { password.length in 6..20 }
     }
 
-    fieldNames("password", "confirmPassword") {
+    fields("password", "confirmPassword") {
         mustBe("password confirmPassword same") { password == confirmPassword }
     }
 
-    fieldName("email") {
+    field("email") {
         mustBe {
 
             email.validate{
