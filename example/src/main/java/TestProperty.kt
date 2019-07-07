@@ -1,6 +1,4 @@
 import com.safframework.kvalidation.definePropertyValidator
-import com.safframework.kvalidation.defineValidator
-import com.safframework.kvalidation.property.ValidationErrors
 import com.safframework.kvalidation.rule.EmailRule
 import com.safframework.kvalidation.validate
 
@@ -23,7 +21,7 @@ val propertyValidator = definePropertyValidator<User> {
     }
 
     field("email") {
-        mustBe {
+        mustBe("verify email") {
 
             email.validate{
 
@@ -37,7 +35,7 @@ fun main() {
 
     val user = User()
 
-    val result: ValidationErrors = propertyValidator.validateAll(user)
+    val result = propertyValidator.validateAll(user)
     println(result)
 
     println(propertyValidator.validate(user))
