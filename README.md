@@ -90,6 +90,6 @@ fun main() {
     val result: ValidationErrors = propertyValidator.validateAll(user)
     println(result)
 
-    println(propertyValidator.isValid(user))
+    println(propertyValidator.validate(user))
 }
 ```

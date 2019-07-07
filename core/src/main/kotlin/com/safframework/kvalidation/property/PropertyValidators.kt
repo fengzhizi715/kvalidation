@@ -74,5 +74,5 @@ class PropertyValidator<T> (
 
     fun validateUntilFirst(target: T) = ValidationErrors(execValidate(target = target))
 
-    fun isValid(target: T) = !validateUntilFirst(target).hasErrors()
+    fun validate(target: T) = !validateUntilFirst(target).hasErrors()
 }
