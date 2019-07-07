@@ -79,7 +79,7 @@ val propertyValidator = definePropertyValidator<User> {
     }
 
     field("email") {
-        mustBe {
+        mustBe("verify email") {
 
             email.validate{
 
@@ -93,7 +93,7 @@ fun main() {
 
     val user = User()
 
-    val result: ValidationErrors = propertyValidator.validateAll(user)
+    val result = propertyValidator.validateAll(user)
     println(result)
 
     println(propertyValidator.validate(user))
