@@ -51,7 +51,7 @@ class PropertyValidator<T> (
             when(it) {
                 is ValidationSpec<T> -> {
 
-                    if (!it.validateFunction(target)) {
+                    if (!it.isValid(target)) {
 
                         val error = ValidationError(
                             specName = it.specName,
