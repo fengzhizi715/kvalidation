@@ -5,16 +5,11 @@ kvalidation 是基于 Kotlin 特性实现的验证框架。
 # 功能特点：
 
 * DSL 风格
-* 支持对象的校验
-* 内含多个校验规则，也支持自定义校验规则
-* 支持对象中属性的校验
+* 支持对象的验证
+* 内含多个验证规则，也支持自定义验证规则
+* 支持对象中属性的验证
 * 支持 RxJava
 
-# 下载
-
-```groovy
-implementation 'com.safframework.kvalidation:kvalidation-core:1.0.0'
-```
 
 # 使用：
 
