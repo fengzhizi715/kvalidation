@@ -10,6 +10,11 @@ kvalidation 是基于 Kotlin 特性实现的验证框架。
 * 支持对象中属性的验证
 * 支持 RxJava
 
+# 下载：
+
+```groovy
+implementation 'com.safframework.kvalidation:kvalidation-core:1.0.0'
+```
 
 # 使用：
 
