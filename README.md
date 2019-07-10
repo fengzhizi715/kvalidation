@@ -20,8 +20,20 @@ implementation 'com.safframework.kvalidation:kvalidation-core:1.0.0'
 
 # 使用：
 
-定义一个 Validator
- 
+### 使用 Validator
+
+由于定义了一个 defineValidator()
+
+```kotlin
+fun <T> defineValidator(block: Validator<T>.() -> Unit): Validator<T> {
+    val v = Validator<T>()
+    block.invoke(v)
+    return v
+}
+```
+
+因此，定义一个 Validator 很简单，可以在 block 中添加 ValidateRule。
+
 ```kotlin
     val validator = defineValidator<String>{
 
@@ -35,7 +47,11 @@ implementation 'com.safframework.kvalidation:kvalidation-core:1.0.0'
     println(result)
 ```
 
-Validator 中能够添加多个校验规则
+### Validator 中添加多个校验规则
+
+由于 Validator 是一个 LinkedHashSet，因此可以在 block 中添加多个 ValidateRule。
+
+例如下面的密码校验，使用了两个 ValidateRule：
 
 ```kotlin
     val validator = defineValidator<String>{
@@ -52,7 +68,60 @@ Validator 中能够添加多个校验规则
     println(result)
 ```
 
-支持使用 RxJava
+### 支持 RxJava 的使用
+
+由于定义了一个 RxValidator
+
+```kotlin
+class RxValidator<T>(private val data: T) : Validator<T>() {
+
+    fun toObservable(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
+        Observable.just(data)
+            .map {
+                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message)
+                })
+            }
+
+    fun toFlowable(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
+        Flowable.just(data)
+            .map {
+                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message)
+                })
+            }
+
+    fun toSingle(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
+        Single.just(data)
+            .map {
+                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message)
+                })
+            }
+
+    fun toMaybe(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
+        Maybe.just(data)
+            .map {
+                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message)
+                })
+            }
+}
+```
+
+并且定义了一个 defineRxValidator() 和扩展函数 rxValidator()
+
+```kotlin
+fun <T> defineRxValidator(data: T, block: RxValidator<T>.() -> Unit): RxValidator<T> {
+    val v = RxValidator<T>(data)
+    block.invoke(v)
+    return v
+}
+
+fun <T> T.rxValidator(block: RxValidator<T>.() -> Unit): RxValidator<T> {
+    val v = RxValidator<T>(this)
+    block.invoke(v)
+    return v
+}
+```
+
+因此 RxJava 的结合使用变得很简单，下面分别使用两种方式展示了如何结合 RxJava 的使用：
 
 ```kotlin
     val email = "fengzhizi715@126.com"
@@ -60,9 +129,29 @@ Validator 中能够添加多个校验规则
     defineRxValidator(email){ this addRule EmailRule() }
         .toObservable( error = { println(it)})
         .subscribe{ println(it) }
+
+    val invalidEmail = "fengzhizi715@126"
+
+    invalidEmail.rxValidator { this addRule EmailRule() }
+        .toObservable( error = { println(it)})
+        .subscribe{ println(it) }
 ```
 
-支持对象中属性的校验
+### 支持对象中属性的校验
+
+参考上面的代码，在 [kvalidation](https://github.com/fengzhizi715/kvalidation) 中也事先定义了一个 definePropertyValidator()
+
+```kotlin
+fun <T> definePropertyValidator(block: PropertyValidator<T>.() -> Unit): PropertyValidator<T> {
+    val v = PropertyValidator<T>()
+    block.invoke(v)
+    return v
+}
+```
+
+因此，在定义一个 PropertyValidator 时，也可以在 block 中添加多个 mustBe()、field()、fields() 方法。
+
+在 field()、fields() 中，还可以添加多个 mustBe() 方法
 
 ```kotlin
 data class User(val name: String = "tony",val password: String = "abcdefg", val confirmPassword: String = "abcdefg" ,val email:String = "abc#abc.com")
@@ -101,6 +190,27 @@ fun main() {
     println(propertyValidator.validate(user))
 }
 ```
+
+在 email 字段中，mustBe() 里使用了
+
+```kotlin
+            email.validate{
+
+                this addRule EmailRule()
+            }
+```
+
+它是一个扩展函数：
+
+```kotlin
+fun <T> T.validate(block: Validator<T>.() -> Unit): Boolean {
+    val v = Validator<T>()
+    block.invoke(v)
+    return v.validate(this)
+}
+```
+
+它实际上是调用了类的验证，并添加了 EmailRule。
 
 # 联系方式:
 
