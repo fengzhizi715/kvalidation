@@ -13,5 +13,5 @@ data class ValidationErrors(val errors: List<ValidationError>) {
 
     fun showAllMessages()= errors.map{it.toString()}
 
-    fun hasErrors() = !errors.isEmpty()
+    fun hasErrors() = errors.isNotEmpty()
 }
