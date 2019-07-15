@@ -14,28 +14,24 @@ class RxValidator<T>(private val data: T) : Validator<T>() {
     fun toObservable(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
         Observable.just(data)
             .map {
-                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message)
-                })
+                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message)})
             }
 
     fun toFlowable(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
         Flowable.just(data)
             .map {
-                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message)
-                })
+                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message) })
             }
 
     fun toSingle(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
         Single.just(data)
             .map {
-                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message)
-                })
+                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message) })
             }
 
     fun toMaybe(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
         Maybe.just(data)
             .map {
-                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message)
-                })
+                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message) })
             }
 }
