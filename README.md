@@ -15,7 +15,7 @@ kvalidation 是基于 Kotlin 特性实现的验证框架。
 # 下载：
 
 ```groovy
-implementation 'com.safframework.kvalidation:kvalidation-core:1.0.0'
+implementation 'com.safframework.kvalidation:kvalidation-core:1.0.1'
 ```
 
 # 使用：
@@ -76,31 +76,35 @@ fun <T> defineValidator(block: Validator<T>.() -> Unit): Validator<T> {
 class RxValidator<T>(private val data: T) : Validator<T>() {
 
     fun toObservable(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
-        Observable.just(data)
+        Observable.create<T> {
+               it.onNext(data)
+            }
             .map {
-                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message)
-                })
+                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message)})
             }
 
     fun toFlowable(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
-        Flowable.just(data)
+        Flowable.create<T> ({
+                it.onNext(data)
+             }, BackpressureStrategy.BUFFER)
             .map {
-                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message)
-                })
+                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message) })
             }
 
     fun toSingle(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
-        Single.just(data)
+        Single.create<T> {
+                it.onSuccess(data)
+            }
             .map {
-                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message)
-                })
+                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message) })
             }
 
     fun toMaybe(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
-        Maybe.just(data)
+        Maybe.create<T> {
+                it.onSuccess(data)
+            }
             .map {
-                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message)
-                })
+                validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message) })
             }
 }
 ```
