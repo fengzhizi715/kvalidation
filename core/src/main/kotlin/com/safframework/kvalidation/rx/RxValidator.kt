@@ -1,10 +1,7 @@
 package com.safframework.kvalidation.rx
 
 import com.safframework.kvalidation.Validator
-import io.reactivex.Flowable
-import io.reactivex.Maybe
-import io.reactivex.Observable
-import io.reactivex.Single
+import io.reactivex.*
 
 /**
  * Created by tony on 2019-07-03.
@@ -20,7 +17,9 @@ class RxValidator<T>(private val data: T) : Validator<T>() {
             }
 
     fun toFlowable(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
-        Flowable.just(data)
+        Flowable.create<T> ({
+                it.onNext(data)
+             }, BackpressureStrategy.BUFFER)
             .map {
                 validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message) })
             }
