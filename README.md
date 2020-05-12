@@ -15,7 +15,7 @@ kvalidation 是基于 Kotlin 特性实现的验证框架。
 # 下载：
 
 ```groovy
-implementation 'com.safframework.kvalidation:kvalidation-core:1.0.1'
+implementation 'com.safframework.kvalidation:kvalidation-core:1.0.2'
 ```
 
 # 使用：
