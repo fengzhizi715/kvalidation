@@ -12,7 +12,9 @@ import io.reactivex.Single
 class RxValidator<T>(private val data: T) : Validator<T>() {
 
     fun toObservable(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
-        Observable.just(data)
+        Observable.create<T> {
+               it.onNext(data)
+            }
             .map {
                 validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message)})
             }
@@ -24,13 +26,17 @@ class RxValidator<T>(private val data: T) : Validator<T>() {
             }
 
     fun toSingle(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
-        Single.just(data)
+        Single.create<T> {
+                it.onSuccess(data)
+            }
             .map {
                 validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message) })
             }
 
     fun toMaybe(success: (() -> Unit)? = null,error: ((String) -> Unit)? = null) =
-        Maybe.just(data)
+        Maybe.create<T> {
+                it.onSuccess(data)
+            }
             .map {
                 validate(it, onSuccess = { success?.invoke() }, onError = { message -> error?.invoke(message) })
             }
