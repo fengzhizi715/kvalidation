@@ -22,7 +22,7 @@ implementation 'com.safframework.kvalidation:kvalidation-core:1.0.2'
 
 ### 使用 Validator
 
-定义一个 defineValidator() 的函数：
+定义一个 Validator 函数 defineValidator() 
 
 ```kotlin
 fun <T> defineValidator(block: Validator<T>.() -> Unit): Validator<T> {
