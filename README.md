@@ -1,6 +1,6 @@
 # kvalidation
 
-kvalidation 是基于 Kotlin 特性实现的验证框架。
+kvalidation 基于 Kotlin 特性实现的验证框架。
 
 # 功能特点：
 
@@ -22,7 +22,7 @@ implementation 'com.safframework.kvalidation:kvalidation-core:1.0.2'
 
 ### 使用 Validator
 
-定义一个 Validator 函数 defineValidator() 
+使用 defineValidator() 定义一个 Validator 函数:
 
 ```kotlin
 fun <T> defineValidator(block: Validator<T>.() -> Unit): Validator<T> {
