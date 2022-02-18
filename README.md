@@ -220,6 +220,7 @@ fun <T> T.validate(block: Validator<T>.() -> Unit): Boolean {
 它实际上是调用了类的验证，并添加了 EmailRule。
 
 # TODO list：
+* 支持 RxJava3
 * 支持 Android
 
 # 联系方式:
