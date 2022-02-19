@@ -1,6 +1,7 @@
-import com.safframework.kvalidation.defineRxValidator
+
 import com.safframework.kvalidation.rule.EmailRule
-import com.safframework.kvalidation.rxValidator
+import com.safframework.kvalidation.rxjava2.extension.defineRxValidator
+import com.safframework.kvalidation.rxjava2.extension.rxValidator
 
 /**
  * Created by tony on 2019-07-04.

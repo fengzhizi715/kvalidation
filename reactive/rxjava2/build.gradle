@@ -3,21 +3,22 @@ plugins {
     id 'kotlin'
 }
 
-def libs = rootProject.ext.libraries // 库
+group = 'com.github.fengzhizi715'
 
-sourceCompatibility = 1.8
+def libs = rootProject.ext.libraries // 库
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    compileOnly "io.reactivex.rxjava2:rxjava:${libs.rxjava2}"
 
     implementation project(":core")
-    implementation project(":reactive:rxjava2")
-    implementation "io.reactivex.rxjava2:rxjava:${libs.rxjava2}"
 }
 
 compileKotlin {

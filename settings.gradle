@@ -2,3 +2,6 @@ rootProject.name = 'kvalidation'
 include 'core'
 include 'example'
 
+include 'reactive'
+include 'reactive:rxjava2'
+findProject(':reactive:rxjava2')?.name = 'rxjava2'

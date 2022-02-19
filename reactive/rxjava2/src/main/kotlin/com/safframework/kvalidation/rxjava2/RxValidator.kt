@@ -1,4 +1,4 @@
-package com.safframework.kvalidation.rx
+package com.safframework.kvalidation.rxjava2
 
 import com.safframework.kvalidation.Validator
 import io.reactivex.*
