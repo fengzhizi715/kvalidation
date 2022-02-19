@@ -18,8 +18,29 @@ kvalidation 基于 Kotlin 特性实现的验证框架。
 
 # 下载：
 
+将它添加到项目的 root build.gradle 中：
+
 ```groovy
-implementation 'com.safframework.kvalidation:kvalidation-core:1.1.0'
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+其余，按需依赖各个模块，其中 core 是必须要依赖的
+
+```groovy
+implementation 'com.github.fengzhizi715.kvalidation:core:1.1.0'
+```
+
+```groovy
+implementation 'com.github.fengzhizi715.kvalidation:rxjava2:1.1.0'
+```
+
+```groovy
+implementation 'com.github.fengzhizi715.kvalidation:rxjava3:1.1.0'
 ```
 
 # 使用：
