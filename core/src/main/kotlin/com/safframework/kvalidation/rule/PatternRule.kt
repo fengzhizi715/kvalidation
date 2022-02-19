@@ -6,7 +6,7 @@ import java.util.regex.Pattern
 /**
  * Created by tony on 2019-07-03.
  */
-open class PatternRule(val pattern: Pattern) : ValidateRule<String> {
+open class PatternRule(private val pattern: Pattern) : ValidateRule<String> {
 
     constructor(regex:String):this(Pattern.compile(regex))
 
