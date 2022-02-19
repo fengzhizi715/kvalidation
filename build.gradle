@@ -1,12 +1,11 @@
 apply plugin: 'java'
 
-group 'com.safframework'
-version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -14,11 +13,11 @@ dependencies {
 }
 
 buildscript {
-
     ext.kotlin_version = '1.5.31'
 
     repositories {
         mavenCentral()
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"

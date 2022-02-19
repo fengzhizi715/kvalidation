@@ -3,13 +3,13 @@ plugins {
     id 'kotlin'
 }
 
-group 'com.safframework.kvalidation'
-version '1.0-SNAPSHOT'
+group = 'com.github.fengzhizi715'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
